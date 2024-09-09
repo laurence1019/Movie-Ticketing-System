@@ -63,6 +63,9 @@ int main()
 								case 5:
 									 ad_dltmovie(movie,hall);
 									 break;
+							        default:
+							                 cout << "Invalid Choice. Please re-enter again." << endl;
+							                 break;
 							
 						}
 						goto checkpoint1;
