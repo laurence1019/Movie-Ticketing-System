@@ -7,5 +7,12 @@
 #include <regex>
 #include <cstdlib>
 #include <ctime>
+
+#include <array>
+#include <map>
+#include <tuple>
+#include <vector>  
+#include <algorithm>
+
 //#include <windows.h>
 using namespace std;
