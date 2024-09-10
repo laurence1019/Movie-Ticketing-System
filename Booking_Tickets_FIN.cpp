@@ -233,7 +233,7 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
 int main() {
 
     BookingInfo booking_info;
-    BookingInfo booking_info2;
+    // BookingInfo booking_info2;
 
     Movie movie1("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
     Movie movie2("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
