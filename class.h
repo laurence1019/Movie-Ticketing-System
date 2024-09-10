@@ -200,5 +200,12 @@ string autoCode(movie_class movie);
 
 //Customer
 void cust_member(cust_class& cust);
+void receipt(cust_class cust);
+void invoice();
+int pay_decision();
+string payMethDec();
+string rtc();
+string autoID();
+void receipt();
 
 #endif
