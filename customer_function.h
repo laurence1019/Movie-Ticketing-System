@@ -1,22 +1,9 @@
 #include "header.h"
 #include "class.h"
 
-int pay_decision();
-void receipt();
-
-int main() {
-    
-    pay_decision();
-    receipt();
-
-    cout << "byebye" << endl;
-    return 0;
-}
-
 //RECEIVE ALL REQUIRED INFO FROM RELEVANT FUNCITONS AND DISPLAY RECEIPT
-void receipt() {
 
-    //MOVIE TITLE
+//MOVIE TITLE
 
     //DATE
 
@@ -29,26 +16,28 @@ void receipt() {
     //TICKET PRICE
    
     //PAYMENT METHOD
+
+
+void receipt()
+{
+    
     int pay_type = 0;           //VARIABLE pay_type WILL RECEIVE RETURN VALUE FROM FUNCTION pay_decision()
-    string pay_dis = " ";       //pay_dis IS USED TO DISPLAY IN THE TICKET
+    string pay_dis = "";       //pay_dis IS USED TO DISPLAY IN THE TICKET
     pay_type = pay_decision();
-    switch (pay_type) {
-    case 1:
-        pay_dis = "Credit Card";
-        break;
-    case 2:
-        pay_dis = "Debit Card";
-        break;
-    case 3:
-        pay_dis = "Cash";
-        break;
-    default:
-        pay_dis = "E-wallet";
+    switch (pay_type)
+    {
+        case 1:
+            pay_dis = "Credit Card";
+            break;
+        case 2:
+            pay_dis = "Debit Card";
+            break;
+        case 3:
+            pay_dis = "Cash";
+            break;
+        default:
+            pay_dis = "E-wallet";
     }
-
-    //TRANSACTION ID
-
-
 
     //RELEVANT INFORMATION DISPLAYED INTO A TICKET FORMAT
         cout << "--------------------------------------" << endl;
@@ -63,10 +52,10 @@ void receipt() {
         cout << setw(20) << left << "Payment Method: " << setw(18) << right << pay_dis << endl;
         cout << setw(20) << left << "Transaction ID: " << setw(18) << right << " " << endl;
         cout << "--------------------------------------" << endl;
-
 }
 
-int pay_decision() { 
+int pay_decision() 
+{ 
    //DISPLAYS CHOICES FOR SELECTION
     cout << "-----[Please Select Payment method]-----" << endl;
     cout << setfill('.');
@@ -78,6 +67,7 @@ int pay_decision() {
     cout << setfill('.');
     cout << "|" << "4." << setw(36) << right << "E-Wallet" << "|" << endl;
     cout << "----------------------------------------" << endl;
+    
     //PROMPTS USER TO CHOOSE PAYMENT METHOD
     int choice = 0;
     do {
