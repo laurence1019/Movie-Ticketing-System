@@ -80,7 +80,12 @@ int main()
 					}
 
 				case '2':
+					//Additional - Membership Verify
 					cust_member(cust);
+					
+					//Last Part (from Daryl)
+					invoice();
+					receipt();
 					break;
 
 				case '0':
