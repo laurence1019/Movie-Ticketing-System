@@ -1,8 +1,5 @@
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <cstdlib>
-using namespace std;
+#include "header.h"
+#include "class.h"
 
 int pay_decision();
 void receipt();
