@@ -5,14 +5,13 @@
 #include "admin_main.h"
 #include "admin_function.h"
 #include "customer_main.h"
-#include "customer_invoice_receipt.h"
+#include "customer_function.h"
 
 int main()
 {
 	//Class Variable
 	admin_class admin;
 	movie_class movie;
-	hall_class hall;
 	cust_class cust;
 
 	//Local Variable
@@ -53,20 +52,11 @@ int main()
 									 ad_mvlist(movie);
 									 break;
 								case 2:
-									 ad_hallstatus(hall);
-									 break;
-								case 3:
 									 ad_salesreport(movie);
 									 break;
-								case 4:
-									 ad_addmovie(movie,hall);
+								case 3:
+									 ad_mfymovie(movie);
 									 break;
-								case 5:
-									 ad_dltmovie(movie,hall);
-									 break;
-							        default:
-							                 cout << "Invalid Choice. Please re-enter again." << endl;
-							                 break;
 							
 						}
 						goto checkpoint1;
@@ -80,10 +70,7 @@ int main()
 					}
 
 				case '2':
-					//Additional - Membership Verify
 					cust_member(cust);
-					
-					//Last Part (from Daryl)
 					invoice();
 					receipt();
 					break;
