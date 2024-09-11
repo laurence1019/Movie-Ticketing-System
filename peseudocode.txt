@@ -1,4 +1,171 @@
-//Booking_Tickets_FIN.cpp
+//Admin_function.h========================================================================================================================================================
+Function ad_mvlist(movie):
+    Print a header for "Movie List" with a line of asterisks
+    Print column headers: "No.", "Movie Code", "Movie Name"
+    
+    For i from 0 to 9:
+        Print the movie number (i+1), movie code, and movie name from movie.mv_list[i]
+
+    Print "-- End Of List --"
+Function ad_hallstatus(hall):
+    Initialize hall_seat to 0
+    Initialize repeat to true
+    Initialize hall_num as empty character
+    
+    While hall_num is invalid or repeat is true:
+        Prompt user to enter a hall number
+        Read hall_num from input
+        
+        If hall_num is not a digit or hall_num is out of range (1-10):
+            Print "Invalid Hall Number. Please re-enter."
+            Set repeat to true
+        Else:
+            Convert hall_num to integer num
+            Set repeat to false
+            
+            Print "Hall Number" and the movie playing in that hall
+            
+            Initialize hall_seat to 0
+            
+            For i from 0 to 9:
+                For j from 0 to 9:
+                    If hall.hall_seat[num][i][j] is empty:
+                        Print "O" (available seat)
+                        Increment hall_seat
+                    Else:
+                        Print "X" (occupied seat)
+            
+            Print "Seat Not Available (X) / Seat Available (O)"
+            Print the number of available seats
+Function ad_salesreport(movie):
+    Print a header for "Sales Status" with a line of asterisks
+    Print column headers: "Movie Code", "Movie Title", "Revenue"
+    
+    Print a line of dashes
+    
+    For i from 0 to 9:
+        Print the movie code, movie title, and revenue from movie.mv_list[i]
+    
+    Print a line of dashes
+Function ad_addmovie(movie, hall):
+    Initialize mv_name as empty string
+    Initialize mv_code as empty string
+    Initialize confirm as empty character
+    Initialize flag to true
+    Initialize count to 0
+    
+    For i from 0 to 9:
+        If movie.mv_list[i][0] is not empty:
+            Increment count
+    
+    If count equals 10:
+        Print "Movie List is Full. Cannot add more movie."
+        Exit function
+    
+    While mv_name is empty or flag is true:
+        Prompt user to enter movie name
+        Read mv_name from input
+        
+        If mv_name is empty:
+            Print "Invalid Movie Name. Please re-enter."
+        Else:
+            Set flag to false
+    
+    While confirm is not 'y' or 'n' or flag is false:
+        Prompt user to confirm adding the movie
+        Read confirm from input
+        
+        If confirm is not valid:
+            Print "Invalid Input. Please re-enter."
+            Set flag to false
+        Else:
+            If confirm is 'y':
+                Set flag to true
+                Generate mv_code using autoCode(movie)
+                For i from 0 to 9:
+                    If movie.mv_list[i][0] is empty:
+                        Set movie.mv_list[i][0] to mv_code
+                        Set movie.mv_list[i][1] to mv_name
+                        Break loop
+                Print the movie code and name
+                Print "Movie is successfully inserted!"
+            Else if confirm is 'n':
+                Set mv_name to empty
+                Print "Operation Cancelled."
+                Break loop
+            Else:
+                Print "Invalid Input. Please re-enter."
+Function autoCode(movie):
+    Seed random number generator
+    Initialize chr array with 4 characters
+    Initialize num array with 5 characters
+    
+    For i from 0 to 2:
+        Set chr[i] to a random uppercase letter
+    
+    Set chr[3] to null terminator
+    For j from 0 to 3:
+        Set num[j] to a random digit
+    
+    Set num[4] to null terminator
+    
+    Combine chr and num to form code
+    
+    For k from 0 to 9:
+        If code matches any existing movie code in movie.mv_list:
+            Call autoCode recursively to generate a new code
+    
+    Return code
+Function ad_dltmovie(movie, hall):
+    Initialize mv_code as empty string
+    Initialize confirm as empty character
+    Initialize flag to true
+    Initialize count to 0
+    
+    For i from 0 to 9:
+        If movie.mv_list[i][0] is empty:
+            Increment count
+    
+    If count equals 10:
+        Print "Movie List is Empty. Cannot delete more movie."
+        Exit function
+    
+    While mv_code is empty or flag is true:
+        Prompt user to enter movie code
+        Read mv_code from input
+        
+        If mv_code is empty:
+            Print "Invalid Movie Code. Please re-enter."
+        Else:
+            Set flag to false
+    
+    While confirm is not 'y' or 'n' or flag is false:
+        Prompt user to confirm deleting the movie
+        Read confirm from input
+        
+        If confirm is not valid:
+            Print "Invalid Input. Please re-enter."
+            Set flag to false
+        Else:
+            If confirm is 'y':
+                Set flag to true
+                For i from 0 to 9:
+                    If movie.mv_list[i][0] matches mv_code:
+                        Set movie.mv_list[i][0] and [1] to empty
+                        Print "Movie is successfully deleted!"
+                        Break loop
+                If flag is false:
+                    Print "Movie not found!"
+                    Repeat the input prompt
+            Else if confirm is 'n':
+                Set mv_code to empty
+                Print "Operation Cancelled."
+                Break loop
+            Else:
+                Print "Invalid Input. Please re-enter."
+
+
+//Booking_Tickets_FIN.cpp===================================================================================================================================================
 // Define constants for seat references
 DEFINE alphabs AS array ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 DEFINE list_nums AS array ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
@@ -133,7 +300,7 @@ MAIN:
     CALL booking_main(movie_list) TO SET booking_info
     PRINT booking summary: movie_name, date, time, ticket_amount, seat_store
 
-//customer_invoice_receipt.h
+//customer_invoice_receipt.h================================================================================================================================================
 FUNCTION autoID()
     SEED random number generator with current time
     CREATE an array num with 9 characters
