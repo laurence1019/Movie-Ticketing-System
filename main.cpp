@@ -5,7 +5,7 @@
 #include "admin_main.h"
 #include "admin_function.h"
 #include "customer_main.h"
-#include "customer_function.h"
+#include "customer_invoice_receipt.h"
 
 int main()
 {
