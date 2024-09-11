@@ -7,6 +7,7 @@
 #include <regex>
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 
 #include <array>
 #include <map>
