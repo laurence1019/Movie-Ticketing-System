@@ -1,4 +1,138 @@
-//
+//Booking_Tickets_FIN.cpp
+// Define constants for seat references
+DEFINE alphabs AS array ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+DEFINE list_nums AS array ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+CLASS Movie:
+    VARIABLES:
+        - name: string
+        - length: string
+        - genre: string
+        - language: string
+        - dates: vector of strings
+        - time: vector of strings
+        - booking_data: map of date -> map of time -> vector of seat pairs
+
+    CONSTRUCTOR Movie(name, length, genre, language, dates, times):
+        INITIALIZE name, length, genre, language, dates, time
+        INITIALIZE booking_data WITH call to initialize_booking(dates, times)
+
+    FUNCTION initialize_booking(dates, times):
+        CREATE main_dict AS empty map
+        FOR EACH date IN dates:
+            CREATE plc_dict AS empty map
+            FOR EACH time IN times:
+                SET plc_dict[time] TO empty vector of seat pairs
+            SET main_dict[date] TO plc_dict
+        RETURN main_dict
+
+    FUNCTION print_info():
+        PRINT movie information: name, length, genre, language
+
+    FUNCTION in_date():
+        PRINT available dates
+        WHILE TRUE:
+            PROMPT user to enter date
+            IF entered date IS IN dates THEN
+                RETURN entered date
+            PRINT "Invalid date, please try again."
+
+    FUNCTION in_time():
+        PRINT available times
+        WHILE TRUE:
+            PROMPT user to enter time
+            IF entered time IS IN time THEN
+                RETURN entered time
+            PRINT "Invalid time, please try again."
+
+    FUNCTION return_seats(date, time):
+        RETURN booking_data[date][time] // returns vector of booked seats
+
+    FUNCTION show_seats(booked_seats):
+        PRINT seat layout header
+        FOR EACH letter IN alphabs:
+            PRINT letter
+            FOR EACH col IN list_nums:
+                IF (letter, col) IN booked_seats THEN
+                    PRINT "|XX|" // occupied
+                ELSE
+                    PRINT "|  |" // unoccupied
+            PRINT newline
+
+    FUNCTION in_seats(date, time):
+        WHILE TRUE:
+            PROMPT user to enter seat letter
+            CONVERT seat letter to uppercase
+            IF seat letter IS NOT IN alphabs THEN
+                PRINT "Invalid row. Please try again."
+                CONTINUE
+            PROMPT user to enter seat number
+            IF seat number IS NOT IN list_nums THEN
+                PRINT "Invalid seat number. Please try again."
+                CONTINUE
+            CREATE seat_n AS pair (seat letter, seat number)
+            IF seat_n IS IN booked_seats THEN
+                PRINT "Seat already booked. Please choose another seat."
+            ELSE
+                ADD seat_n TO booked_seats
+                PRINT "Seat booked successfully!"
+                CALL show_seats(booked_seats)
+                RETURN seat_n
+
+    FUNCTION booking(date, time):
+        IF date IS EMPTY AND time IS EMPTY THEN
+            CALL in_date() TO SET date
+            CALL in_time() TO SET time
+        IF booked seats >= 100 THEN
+            PRINT "Sorry, all seats are booked. Please try another date and time."
+            RETURN tuple with empty values
+        CALL show_seats(booked_seats)
+        CALL in_seats(date, time) TO GET seat_n
+        RETURN tuple (date, time, seat_n, movie name)
+
+// Define BookingInfo structure
+STRUCT BookingInfo:
+    VARIABLES:
+        - movie_name: string
+        - date: string
+        - time: string
+        - ticket_amount: integer
+        - seat_store: vector of seat pairs
+
+FUNCTION booking_main(movie_list):
+    CREATE main_store AS BookingInfo
+    INITIALIZE date, time, seat_store AS empty values
+    PRINT available movies
+    WHILE TRUE:
+        PROMPT user to select movie or exit
+        IF selected_movie_idx IS VALID THEN
+            GET selected_movie FROM movie_list
+            PROMPT user to enter ticket amount
+            FOR i FROM 0 TO ticket_amount - 1:
+                CALL selected_movie.booking(date, time) TO GET date, time, seat_n, movie_name
+                IF movie_name IS EMPTY THEN
+                    CONTINUE
+                ADD seat_n TO seat_store
+                SET main_store fields (movie_name, date, time)
+            SET main_store.ticket_amount TO ticket_amount
+            SET main_store.seat_store TO seat_store
+            RETURN main_store
+        ELSE IF selected_movie_idx IS 0 THEN
+            PRINT "Exiting booking menu."
+            BREAK
+        ELSE
+            PRINT "Invalid Input. Please try again."
+    RETURN main_store
+
+MAIN:
+    CREATE booking_info AS BookingInfo
+    CREATE movie1 AS Movie("The Matrix", "2h", "Sci-Fi", "English", ["1", "2", "3", "4"], ["12:30", "1:30", "2:00", "3:45"])
+    CREATE movie2 AS Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", ["1", "2", "3", "4"], ["12:30", "1:30", "2:00", "3:45"])
+    CREATE movie3 AS Movie("Deadpool 3", "2hr 40min", "Action", "English", ["1", "2", "3", "4"], ["12:30", "1:30", "2:00", "3:45"])
+    CREATE movie_list AS vector of movie1, movie2, movie3
+    CALL booking_main(movie_list) TO SET booking_info
+    PRINT booking summary: movie_name, date, time, ticket_amount, seat_store
+
 //customer_invoice_receipt.h
 FUNCTION autoID()
     SEED random number generator with current time
