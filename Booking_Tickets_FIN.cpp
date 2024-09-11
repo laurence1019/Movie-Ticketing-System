@@ -16,6 +16,7 @@ array<string, 10> list_nums = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 // Movie class definition
 class Movie {
 public:
+    // declare variables 
     string name;
     string length;
     string genre;
@@ -24,13 +25,21 @@ public:
     vector<string> time;
     map<string, map<string, vector<pair<string, string>>>> booking_data;
 
-    // Constructor to initialize the movie with details
+    // Constructor to initialize the movie with details, def  __init__. 
     Movie(string name, string length, string genre, string language, vector<string> dates, vector<string> times)
         : name(name), length(length), genre(genre), language(language), dates(dates), time(times) {
         booking_data = initialize_booking(dates, times);
     }
 
     // Initialize booking data with available dates and times
+    // Nested Map, Ex.
+    // main_dict = { 
+    //     date = {
+    //         time = {
+    //             []
+    //         }
+    //     }
+    // }
     map<string, map<string, vector<pair<string, string>>>> initialize_booking(vector<string> dates, vector<string> times) {
         map<string, map<string, vector<pair<string, string>>>> main_dict;
         for ( string date : dates) {
@@ -54,6 +63,7 @@ public:
     // Input for date selection with validation
     string in_date() {
         cout << "This is the available dates: ";
+        // for date in dates, looping throught one at a time. Think of indexing
         for ( string date : dates) {
             cout << date << ", ";
         }
@@ -63,6 +73,8 @@ public:
         while (true) {
             cout << "Enter a valid date: ";
             cin >> chosen_date;
+            // find(start of range, end of range, variable to be found)
+            // If found return variable, else return end of range
             if (find(dates.begin(), dates.end(), chosen_date) != dates.end()) {
                 return chosen_date;
             }
@@ -73,6 +85,7 @@ public:
     // Input for time selection with validation
     string in_time() {
         cout << "This is the available times: ";
+        // for time in times, looping throught one at a time. Think of indexing
         for ( string t : time) {
             cout << t << ", ";
         }
@@ -82,6 +95,8 @@ public:
         while (true) {
             cout << "Enter a valid time: ";
             cin >> chosen_time;
+            // find(start of range, end of range, variable to be found)
+            // If found return variable, else return end of range
             if (find(time.begin(), time.end(), chosen_time) != time.end()) {
                 return chosen_time;
             }
@@ -91,20 +106,26 @@ public:
 
     // Return booked seats for a given date and time
     vector<pair<string, string>>& return_seats(string date, string time) {
-        return booking_data[date][time];
+        // dictionary is called with keys
+        // Key : Value
+        // Nested Dictionary is called with two or more keys
+        return booking_data[date][time]; // returns seats vector 
     }
 
     // Show available and booked seats
     void show_seats(const vector<pair<string, string>>& booked_seats) {
-        cout << "   1   2   3   4   5   6   7   8   9   10" << endl;
+        cout << "   1   2   3   4   5   6   7   8   9   10" << endl; // hard coded, can use setw
 
         for ( string letter : alphabs) {
             cout << letter << " ";
             for ( string col : list_nums) {
+                // find(start of range, end of range, variable to be found)
+                // If found return variable, else return end of range
+                // make_pair(letter, col) makes a pair which is what our booked_seats var type is. It just combines it into a tuple / pair
                 if (find(booked_seats.begin(), booked_seats.end(), make_pair(letter, col)) != booked_seats.end()) {
-                    cout << "|XX|";
+                    cout << "|XX|"; // occupied
                 } else {
-                    cout << "|  |";
+                    cout << "|  |"; // unoccupied
                 }
             }
             cout << endl;
@@ -117,7 +138,10 @@ public:
         while (true) {
             cout << "Enter seat letter (A-J): ";
             cin >> row_alpha;
-            transform(row_alpha.begin(), row_alpha.end(), row_alpha.begin(), ::toupper);
+            transform(row_alpha.begin(), row_alpha.end(), row_alpha.begin(), ::toupper); // transform string to upper. Could use char, but I'm more comfortable with strings
+            // find(start of range, end of range, variable to be found)
+            // If found return variable, else return end of range
+            // Our parameters are our gobals declared at the header
             if (find(alphabs.begin(), alphabs.end(), row_alpha) == alphabs.end()) {
                 cout << "Invalid row. Please try again." << endl;
                 continue;
@@ -129,6 +153,9 @@ public:
             cin >> col_num;
 
             // Check if input is not in list_nums
+            // find(start of range, end of range, variable to be found)
+            // If found return variable, else return end of range
+            // Our parameters are our gobals declared at the header
             if (find(list_nums.begin(), list_nums.end(), col_num) == list_nums.end()) {
                 cout << "Invalid seat number. Please try again." << endl;
                 continue;
@@ -136,10 +163,12 @@ public:
                 
 
             pair<string, string> seat_n = make_pair(row_alpha, col_num);
+            // return_seats returns our seat vector
             if (find(return_seats(date, time).begin(), return_seats(date, time).end(), seat_n) != return_seats(date, time).end()) {
+                // checks for booked seat using find function
                 cout << "Seat already booked. Please choose another seat." << endl;
             } else {
-                return_seats(date, time).push_back(seat_n); // append seat_n into vector
+                return_seats(date, time).push_back(seat_n); // append seat_n into seat vector
                 cout << "\nSeat booked successfully!\n";
                 show_seats(return_seats(date, time));
                 return seat_n;
@@ -149,6 +178,9 @@ public:
 
     // Main booking function
     tuple<string, string, pair<string, string>, string> booking(string date, string time) {
+        // we check if date and time are empty, this is for booking multiple tickets
+        // if false we enter date and time, if true we skip 
+        // So users don't have to enter date and time multiple times
         if (date.empty() && time.empty()) {
             date = in_date();
             time = in_time();
@@ -163,6 +195,8 @@ public:
 
 // Have to be declared outside main !
 struct BookingInfo {
+    // struct for storing current booking info
+    // lasts only for current session
     string movie_name;
     string date;
     string time;
@@ -170,7 +204,7 @@ struct BookingInfo {
     vector<pair<string, string>> seat_store;  // Store seat information as a list
 };
 
-// Main booking function to handle multiple movies
+// Main booking function to handle multiple movies, and multiply bookings
 BookingInfo booking_main(vector<Movie>& movie_list) {
 
     BookingInfo main_store;
@@ -178,12 +212,14 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
     vector<pair<string, string>> seat_store;
 
     cout << "\nAvailable Movies:" << endl;
+    // prints list of movies
     for (size_t i = 0; i < movie_list.size(); ++i) {
         cout << i + 1 << ". " << movie_list[i].name << endl;
     }
 
     int selected_movie_idx = 0;
     while (true) {
+        // while loop to check valid input for selected_movie_idx
         cout << "Enter a number to select a movie, 0 to exit: ";
         cin >> selected_movie_idx;
 
@@ -200,12 +236,13 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
                 pair<string, string> seat_n;
                 tie(date, time, seat_n, movie_name) = selected_movie.booking(date, time);
                 seat_store.push_back(seat_n);
-
+                
+                // declare inside cus local for loop variables
                 main_store.movie_name = movie_name;
                 main_store.date = date;
                 main_store.time = time;
             }
-            main_store.ticket_amount = ticket_amount; //amount of tickets
+            main_store.ticket_amount = ticket_amount; //amount of tickets for this session only
             main_store.seat_store = seat_store; //store of booked seats for this session only
 
             cout << "\nBooking Summary:\nMovie: " << main_store.movie_name << "\nDate: " << main_store.date << "\nTime: " << main_store.time << "\nSeat(s): ";
@@ -223,22 +260,26 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
             cout << "Invalid Input. Please try again." << endl;
         }
     }
+    // maybe we can declare defualt values for main_store
     return {main_store}; // Default return if exiting, so struc main_store is empty
 }
 
 int main() {
 
+    // initialize struct
     BookingInfo booking_info;
-    BookingInfo booking_info2;
 
+    // declare movies
     Movie movie1("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
     Movie movie2("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
     Movie movie3("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
 
+    // vector list to loop through 
     vector<Movie> movie_list = {movie1, movie2, movie3};
-
+    
+    // struct variables are returned
     booking_info = booking_main(movie_list);
-    // booking_info2 = booking_main(movie_list);
+
 
     // Output booking information for testing
     vector<pair<string, string>> seat_store = booking_info.seat_store;
