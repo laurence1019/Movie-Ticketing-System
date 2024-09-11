@@ -8,11 +8,10 @@
 
 using namespace std;
 
-// Alphabet seating map for seat reference
-const map<string, string> alphabet_seat = {
-    {"A", "1"}, {"B", "2"}, {"C", "3"}, {"D", "4"}, {"E", "5"},
-    {"F", "6"}, {"G", "7"}, {"H", "8"}, {"I", "9"}, {"J", "10"}
-};
+// Alphabet & Number seating arrays for seat referencing
+
+array<string, 10> alphabs = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+array<string, 10> list_nums = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
 // Movie class definition
 class Movie {
@@ -34,9 +33,9 @@ public:
     // Initialize booking data with available dates and times
     map<string, map<string, vector<pair<string, string>>>> initialize_booking(vector<string> dates, vector<string> times) {
         map<string, map<string, vector<pair<string, string>>>> main_dict;
-        for (const auto& date : dates) {
+        for ( string date : dates) {
             map<string, vector<pair<string, string>>> plc_dict;
-            for (const auto& time : times) {
+            for ( string time : times) {
                 plc_dict[time] = vector<pair<string, string>>();  // Initialize empty seat vector for each time
             }
             main_dict[date] = plc_dict;
@@ -55,7 +54,7 @@ public:
     // Input for date selection with validation
     string in_date() {
         cout << "This is the available dates: ";
-        for (const auto& date : dates) {
+        for ( string date : dates) {
             cout << date << ", ";
         }
         cout << endl;
@@ -74,7 +73,7 @@ public:
     // Input for time selection with validation
     string in_time() {
         cout << "This is the available times: ";
-        for (const auto& t : time) {
+        for ( string t : time) {
             cout << t << ", ";
         }
         cout << endl;
@@ -97,13 +96,12 @@ public:
 
     // Show available and booked seats
     void show_seats(const vector<pair<string, string>>& booked_seats) {
-        array<string, 10> alphabs = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
         cout << "   1   2   3   4   5   6   7   8   9   10" << endl;
 
-        for (const auto& letter : alphabs) {
+        for ( string letter : alphabs) {
             cout << letter << " ";
-            for (const auto& col : alphabet_seat) {
-                if (find(booked_seats.begin(), booked_seats.end(), make_pair(letter, col.second)) != booked_seats.end()) {
+            for ( string col : list_nums) {
+                if (find(booked_seats.begin(), booked_seats.end(), make_pair(letter, col)) != booked_seats.end()) {
                     cout << "|XX|";
                 } else {
                     cout << "|  |";
@@ -115,35 +113,33 @@ public:
 
     // Input for seat selection with validation
     pair<string, string> in_seats(string date, string time) {
-        string row_alpha, col;
+        string row_alpha, col_num;
         while (true) {
             cout << "Enter seat letter (A-J): ";
             cin >> row_alpha;
             transform(row_alpha.begin(), row_alpha.end(), row_alpha.begin(), ::toupper);
-            if (alphabet_seat.find(row_alpha) == alphabet_seat.end()) {
+            if (find(alphabs.begin(), alphabs.end(), row_alpha) == alphabs.end()) {
                 cout << "Invalid row. Please try again." << endl;
                 continue;
             }
 
             // Defining a list of valid numbers as strings
-            array<string, 10> list_nums = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-
 
             cout << "Enter seat number (1-10): ";
-            cin >> col;
+            cin >> col_num;
 
             // Check if input is not in list_nums
-            if (find(list_nums.begin(), list_nums.end(), col) == list_nums.end()) {
+            if (find(list_nums.begin(), list_nums.end(), col_num) == list_nums.end()) {
                 cout << "Invalid seat number. Please try again." << endl;
                 continue;
             }
                 
 
-            pair<string, string> seat_n = make_pair(row_alpha, col);
+            pair<string, string> seat_n = make_pair(row_alpha, col_num);
             if (find(return_seats(date, time).begin(), return_seats(date, time).end(), seat_n) != return_seats(date, time).end()) {
                 cout << "Seat already booked. Please choose another seat." << endl;
             } else {
-                return_seats(date, time).push_back(seat_n);
+                return_seats(date, time).push_back(seat_n); // append seat_n into vector
                 cout << "\nSeat booked successfully!\n";
                 show_seats(return_seats(date, time));
                 return seat_n;
@@ -233,7 +229,7 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
 int main() {
 
     BookingInfo booking_info;
-    // BookingInfo booking_info2;
+    BookingInfo booking_info2;
 
     Movie movie1("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
     Movie movie2("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
@@ -246,7 +242,7 @@ int main() {
 
     // Output booking information for testing
     vector<pair<string, string>> seat_store = booking_info.seat_store;
-    cout << "\nBooking Summary:\nMovie: " << booking_info.movie_name << "\nDate: " << booking_info.date << "\nTime: " << booking_info.time << "\nNumber of Tickets " << booking_info.ticket_amount << "\nSeat(s): ";
+    cout << "\nBooking Summary:\nMovie: " << booking_info.movie_name << "\nDate: " << booking_info.date << "\nTime: " << booking_info.time << "\nNumber of Tickets: " << booking_info.ticket_amount << "\nSeat(s): ";
             for (const auto& seat : seat_store) {
                 cout << seat.first << seat.second << " ";
             }
