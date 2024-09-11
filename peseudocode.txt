@@ -1,1 +1,93 @@
+//
+//customer_invoice_receipt.h
+FUNCTION autoID()
+    SEED random number generator with current time
+    CREATE an array num with 9 characters
+
+    FOR i FROM 0 TO 7
+        SET num[i] TO a random digit (0-9) as a character
+
+    SET num[8] TO the null terminator '\0'
+
+    RETURN num as a string
+
+FUNCTION pay_decision()
+    DISPLAY payment method choices:
+        1. Credit Card
+        2. Debit Card
+        3. Cash
+        4. E-Wallet
+
+    INITIALIZE choice as a blank character
+    INITIALIZE flag as false
+
+    WHILE flag is false
+        PROMPT user to enter payment method
+        READ choice from input
+
+        IF choice is whitespace or alphabetic THEN
+            DISPLAY "Invalid Input. Please re-enter."
+            CONTINUE the loop
+
+        ELSE IF choice is one of '1', '2', '3', or '4' THEN
+            SET flag to true
+            BREAK the loop
+
+        ELSE
+            DISPLAY "Invalid Input. Please re-enter."
+
+    RETURN choice converted to integer (choice - '0')
+
+FUNCTION payMethDec()
+    INITIALIZE pay_type as 0
+    INITIALIZE pay_dis as a blank string
+
+    CALL pay_decision() and store result in pay_type
+
+    SWITCH pay_type
+        CASE 1:
+            SET pay_dis to "Credit Card"
+        CASE 2:
+            SET pay_dis to "Debit Card"
+        CASE 3:
+            SET pay_dis to "Cash"
+        DEFAULT:
+            SET pay_dis to "E-wallet"
+
+    RETURN pay_dis
+
+FUNCTION rtc()
+    GET current time and store in timestamp
+    CONVERT timestamp to local time and store in datetime
+
+    INITIALIZE output as an array of 50 characters
+
+    FORMAT datetime to "day/month/year" and store in output
+
+    RETURN output as a string
+
+FUNCTION invoice()
+    CALL rtc() and store result in date
+
+    DISPLAY invoice with:
+        - Invoice ID
+        - Current date
+        - List of items with prices
+        - Subtotal
+        - Discount
+        - Service Charge (5%)
+        - Tax
+        - Total Items
+        - Total Payable
+
+FUNCTION receipt()
+    CALL payMethDec() and store result in pay_dis
+
+    DISPLAY receipt with:
+        - Movie Title
+        - Time
+        - Hall
+        - Seat ID
+        - Price
+        - Payment Method
 
