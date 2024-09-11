@@ -68,10 +68,8 @@ void admin_menu(admin_class& admin)
    cout << setfill('*') << setw(50) << "\n";
    cout << "\n";
    cout << "1. Movie List" << endl;
-   cout << "2. Hall Status" << endl;
-   cout << "3. Sales Status" << endl;
-   cout << "4. Add Movie" << endl;
-   cout << "5. Delete Movie" << endl;
+   cout << "2. Sales Status" << endl;
+   cout << "3. Modify Movie" << endl;
    cout << "0. Exit" << endl;
 
    while (skip == 0)
@@ -97,14 +95,6 @@ void admin_menu(admin_class& admin)
                break;
             case '3':
                admin.ad_choice = 3;
-               skip = 1;
-               break;
-            case '4':
-               admin.ad_choice = 4;
-               skip = 1;
-               break;
-            case '5':
-               admin.ad_choice = 5;
                skip = 1;
                break;
             case '0':
