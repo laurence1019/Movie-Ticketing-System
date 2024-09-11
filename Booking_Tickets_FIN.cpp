@@ -257,11 +257,11 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
             main_store.ticket_amount = ticket_amount; //amount of tickets for this session only
             main_store.seat_store = seat_store; //store of booked seats for this session only
 
-            cout << "\nBooking Summary:\nMovie: " << main_store.movie_name << "\nDate: " << main_store.date << "\nTime: " << main_store.time << "\nSeat(s): ";
-            for (const auto& seat : seat_store) {
-                cout << seat.first << seat.second << " ";
-            }
-            cout << endl;
+            // cout << "\nBooking Summary:\nMovie: " << main_store.movie_name << "\nDate: " << main_store.date << "\nTime: " << main_store.time << "\nSeat(s): ";
+            // for (const auto& seat : seat_store) {
+            //     cout << seat.first << seat.second << " ";
+            // }
+            // cout << endl;
 
             return {main_store};
 
