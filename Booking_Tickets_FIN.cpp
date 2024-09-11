@@ -185,6 +185,11 @@ public:
             date = in_date();
             time = in_time();
         }
+        
+        if (return_seats(date, time).size() >= 100) {
+            cout << "Sorry, all seats are booked. Please try another date and time." << endl;
+            return make_tuple("", "", make_pair("", ""), "");
+        }
 
         vector<pair<string, string>>& seats = return_seats(date, time);
         show_seats(seats);
@@ -235,6 +240,13 @@ BookingInfo booking_main(vector<Movie>& movie_list) {
                 string movie_name;
                 pair<string, string> seat_n;
                 tie(date, time, seat_n, movie_name) = selected_movie.booking(date, time);
+                
+                // to check if seat for this movie at this date and time is fully booked
+                // if so, we restart the while loop
+                if (movie_name.empty()) {
+                    continue;
+                }
+
                 seat_store.push_back(seat_n);
                 
                 // declare inside cus local for loop variables
