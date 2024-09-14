@@ -21,6 +21,7 @@ using namespace std;
 struct BookingInfo {
     // struct for storing current booking info
     // lasts only for current session
+    
     string movie_name;
     string date;
     string time;
@@ -44,31 +45,31 @@ array<string, 10> list_nums = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 
 // CATEGORY AND MEMBERSHIP TICKET START --
 int int_err_input(string int_str, string err_msg) {
-bool cdt = false;						//condition set to false
-int real_int = 0;						//the variable to stored the integer converted from string
-while (!cdt) {							//continue if condition is false
-    getline(cin >> ws, int_str);		//accept user input and stored it as a string
+    bool cdt = false;						//condition set to false
+    int real_int = 0;						//the variable to stored the integer converted from string
+    while (!cdt) {							//continue if condition is false
+        getline(cin >> ws, int_str);		//accept user input and stored it as a string
 
-    //assume the input is valid
-    cdt = true;
+        //assume the input is valid
+        cdt = true;
 
-    //check if every character is a digit
-    for (char c : int_str) {
-        if (!isdigit(c)) {
-                            //note that negative integer is consider as not an integer in this case as '-' sign is not a digit, same goes to decimal number
-                            //this only works for positive integer only (pure digit)
-            cdt = false;	// If any character is not a digit, set condition to false
-            break;			// Break out of the loop immediately
+        //check if every character is a digit
+        for (char c : int_str) {
+            if (!isdigit(c)) {
+                                //note that negative integer is consider as not an integer in this case as '-' sign is not a digit, same goes to decimal number
+                                //this only works for positive integer only (pure digit)
+                cdt = false;	// If any character is not a digit, set condition to false
+                break;			// Break out of the loop immediately
+            }
+        }
+        if (!cdt) {
+            cout << err_msg;
+        }
+        else {
+            return real_int = stoi(int_str);		//retrun the input if it was truly a positive integer
         }
     }
-    if (!cdt) {
-        cout << err_msg;
-    }
-    else {
-        return real_int = stoi(int_str);		//retrun the input if it was truly a positive integer
-    }
-}
-    return 0;
+        return 0;
 }
 
 void ticketCategoryMenu() {
@@ -231,55 +232,55 @@ bool membership(){
 
 TicketInfo CompleteTicketBuyingProcess () {
 
-TicketInfo main_store; 
+    TicketInfo main_store; 
 
-tuple<int, string, double> LocalTicketCategoryNums[3];
-int cateNum = 0, ticketNum = 0, totalticketnumber = 0, indexing= 0;
-double unitPrice = 0.0, catePrice = 0.0, discount = 0.0, totalPrice = 0.0, grandTotal = 0.0;
-string category = " ";
-bool quitMenu = false, wantOtherCate = true;
+    tuple<int, string, double> LocalTicketCategoryNums[3];
+    int cateNum = 0, ticketNum = 0, totalticketnumber = 0, indexing= 0;
+    double unitPrice = 0.0, catePrice = 0.0, discount = 0.0, totalPrice = 0.0, grandTotal = 0.0;
+    string category = " ";
+    bool quitMenu = false, wantOtherCate = true;
 
-//loop only if user want to choose other category
-while (wantOtherCate) {
-    ticketCategoryMenu();									//display menu 
-    cateNum = ticketChoice();								//category choice
-    quitMenu = quitMenuf(cateNum);
-    if (quitMenu){
-        break;												//immediately exit the loop if want to quit menu
+    //loop only if user want to choose other category
+    while (wantOtherCate) {
+        ticketCategoryMenu();									//display menu 
+        cateNum = ticketChoice();								//category choice
+        quitMenu = quitMenuf(cateNum);
+        if (quitMenu){
+            break;												//immediately exit the loop if want to quit menu
+        }
+        category = ticketCategory(cateNum);						//assign category (adult, children, senior)
+        unitPrice = unitPricef(cateNum);						//assign unitPrice according to category
+        ticketNum = ticketNumf(category);		                //ticket number of the category chosen
+
+        totalticketnumber += ticketNum;
+
+        catePrice = catePricef(unitPrice, ticketNum);			//calculate total price for one category
+        totalPrice += catePrice;								//calculate total price for every category chosen
+
+        LocalTicketCategoryNums[indexing] = make_tuple(ticketNum, category, catePrice);
+
+        //user allowed to choose other category 
+        wantOtherCate = wantOtherCategory();
+        indexing += 1;			
+
     }
-    category = ticketCategory(cateNum);						//assign category (adult, children, senior)
-    unitPrice = unitPricef(cateNum);						//assign unitPrice according to category
-    ticketNum = ticketNumf(category);		                //ticket number of the category chosen
 
-    totalticketnumber += ticketNum;
+    main_store.total_ticket_amount = totalticketnumber;
+    for (int i = 0; i < 3; ++i) {
+        main_store.TicketCategoryNums[i] = LocalTicketCategoryNums[i];
+    }
 
-    catePrice = catePricef(unitPrice, ticketNum);			//calculate total price for one category
-    totalPrice += catePrice;								//calculate total price for every category chosen
+    bool is_member = membership();                              //true false
+    main_store.is_member = is_member;
 
-    LocalTicketCategoryNums[indexing] = make_tuple(ticketNum, category, catePrice);
+    if (is_member = true) {
+        discount = 0.9;
+    }
 
-    //user allowed to choose other category 
-    wantOtherCate = wantOtherCategory();
-    indexing += 1;			
+    grandTotal = totalPrice * discount;
+    main_store.grandTotal = grandTotal;
 
-}
-
-main_store.total_ticket_amount = totalticketnumber;
-for (int i = 0; i < 3; ++i) {
-    main_store.TicketCategoryNums[i] = LocalTicketCategoryNums[i];
-}
-
-bool is_member = membership();                              //true false
-main_store.is_member = is_member;
-
-if (is_member = true) {
-    discount = 0.9;
-}
-
-grandTotal = totalPrice * discount;
-main_store.grandTotal = grandTotal;
-
-return main_store;
+    return main_store;
 }
 // -- CATEGORY AND MEMBERSHIP TICKET END
 
@@ -472,15 +473,15 @@ public:
 // -- MOVIE CLASS DEFINITION END
 
 // BOOKING FUNCTION START --
-BookingInfo booking_main(vector<Movie>& movie_list, int ticket_amount) {
+BookingInfo booking_main(Movie movie_list[10], int ticket_amount) {
 
     BookingInfo main_store;
     string date, time;
     vector<pair<string, string>> seat_store;
 
+    // Print list of movies
     cout << "\nAvailable Movies:" << endl;
-    // prints list of movies
-    for (size_t i = 0; i < movie_list.size(); ++i) {
+    for (size_t i = 0; i < 10; ++i) {
         cout << i + 1 << ". " << movie_list[i].name << endl;
     }
 
@@ -490,13 +491,17 @@ BookingInfo booking_main(vector<Movie>& movie_list, int ticket_amount) {
         cout << "Enter a number to select a movie, 0 or letter to exit: ";
         cin >> selected_movie_idx;
 
-        if (selected_movie_idx == 0) {
+        if (cin.fail()) {  // Check for invalid input (e.g., letters)
             cout << "Exiting booking menu." << endl;
             break;
         }
-        else if (selected_movie_idx >= 1 && selected_movie_idx <= movie_list.size()) {
-            Movie selected_movie = movie_list[selected_movie_idx - 1];
 
+        if (selected_movie_idx == 0) {
+            cout << "Exiting booking menu." << endl;
+            break;
+        } else if (selected_movie_idx >= 1 && selected_movie_idx <= 10) {
+            Movie selected_movie = movie_list[selected_movie_idx - 1];
+            
 
             for (int i = 0; i < ticket_amount; ++i) {
                 string movie_name;
@@ -522,12 +527,12 @@ BookingInfo booking_main(vector<Movie>& movie_list, int ticket_amount) {
 
             return {main_store};
 
+        } else {
+            cout << "Invalid selection. Please try again." << endl;
         }
-
-
+        // maybe we can declare defualt values for main_store   
+        return {main_store}; // Default return if exiting, so struc main_store is empty
     }
-    // maybe we can declare defualt values for main_store   
-    return {main_store}; // Default return if exiting, so struc main_store is empty
 }
 // -- BOOKING FUNCTION END
 
@@ -535,15 +540,24 @@ int main() {
     TicketInfo ticket_store;
     BookingInfo booking_store;
 
-    // declare movies
-    Movie movie1("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
-    Movie movie2("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
-    Movie movie3("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"});
+    // declare movies in array list to loop through 
+    Movie movie_list[10] = {
+        Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"})
+    };
 
-    // vector list to loop through 
-    vector<Movie> movie_list = {movie1, movie2, movie3};
 
     ticket_store = CompleteTicketBuyingProcess ();
+
+    // Wie Wie, need u add ur admin movie_list here ah size ten - [10]
     booking_store = booking_main(movie_list, ticket_store.total_ticket_amount);
 
 
@@ -551,7 +565,7 @@ int main() {
     // should prob make printing this stuff a function or smt haha
     cout << "\nBooking Summary:\nMovie: " << booking_store.movie_name << "\nDate: " << booking_store.date << "\nTime: " << booking_store.time 
     << "\nNumber of Tickets: " << booking_store.ticket_amount << "\nSeat(s): ";
-    for (const auto& seat : seat_store) {
+    for (const auto seat : seat_store) {
         cout << seat.first << seat.second << " ";
     }
     cout << endl;
