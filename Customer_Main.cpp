@@ -21,7 +21,7 @@ using namespace std;
 struct BookingInfo {
     // struct for storing current booking info
     // lasts only for current session
-    
+
     string movie_name;
     string date;
     string time;
@@ -530,9 +530,9 @@ BookingInfo booking_main(Movie movie_list[10], int ticket_amount) {
         } else {
             cout << "Invalid selection. Please try again." << endl;
         }
-        // maybe we can declare defualt values for main_store   
-        return {main_store}; // Default return if exiting, so struc main_store is empty
     }
+    // maybe we can declare defualt values for main_store   
+    return {main_store}; // Default return if exiting, so struc main_store is empty
 }
 // -- BOOKING FUNCTION END
 
