@@ -65,7 +65,7 @@ void ad_salesreport(movie_class& movie)
 		totalrevenue = totalrevenue + movie.revenue[i];
 	}
 	
-	cout << right << setfill(' ') << setw(33) << "RM " << fixed << setprecision(2) << showpoint << revenue << endl;
+	cout << right << setfill(' ') << setw(33) << "RM " << fixed << setprecision(2) << showpoint << totalrevenue << endl;
 }
 
 string autoCode(movie_class movie)
