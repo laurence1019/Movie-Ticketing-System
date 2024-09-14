@@ -7,197 +7,65 @@
 //Movie List
 void ad_mvlist(movie_class movie)
 {
+	
 	cout << "\n\nMovie List" << endl;
 	cout << setfill('*') << setw(50) << "\n";
 	cout << "\n";
 
-	cout << left << setfill(' ') << setw(10) << "No." << setw(15) << "Movie Code" << setw(25) << "Movie Name" << endl; 
+	cout << left << setfill(' ') << setw(10) << "No.";
+	cout << setw(15) << "Movie Code";
+	cout << setw(30) << "Movie Name";
+	cout << setw(15) << "Duration";
+	cout << setw(15) << "Category" << endl; 
 	
 	for (int i = 0; i < 10; i++)
 	{
-		cout << left << setfill(' ') << setw(10) << (i+1) << setw(15) << movie.mv_list[i][0] << setw(25) << movie.mv_list[i][1] << endl; 
+		cout << left << setfill(' ') << setw(10) << (i+1);
+		cout << setw(15) << movie.mv_list[i][0];
+		cout << setw(30) << movie.mv_list[i][1];
+		cout << setw(15) << movie.mv_list[i][2];
+		cout << setw(15) << movie.mv_list[i][3] << endl; 
 	}
 
 	cout << "\n-- End Of List --\n";
 }
 
-//Hall Status
-void ad_hallstatus(hall_class hall) 
-{
-	//Local Variables
-	int hall_seat = 0;
-	bool repeat = 1;
-	char hall_num = ' ';
-
-	cout << "\n\nHall Status" << endl;
-	cout << setfill('*') << setw(50) << "\n";
-	cout << "\n";
-
-	while (isspace(hall_num) || repeat == 1)
-	{
-		cout << "Enter Hall Number: ";
-		cin.get(hall_num);
-		cin.ignore(100,'\n');
-
-		if (isspace(hall_num) || isspace(hall_num) || isalpha(hall_num))
-		{
-			repeat = 1;
-			cout << "Invalid Hall Number. Please re-enter." << endl; 
-		}
-		else
-		{
-			int num = stoi(string(1, hall_num));
-
-			if (num >= 1 && num <= 10)
-			{
-				repeat = 0;
-
-				cout << "Hall Number: " << num << endl;
-				cout << "Movie Playing: \"" << hall.hall_playing[num] << "\"\n\n";
-				cout << left;
-
-				for (int i = 0; i < 10; i++)
-        		{
-          			for (int j = 0; j < 10; j++)
-          			{
-            			if (hall.hall_seat[num][i][j].empty())
-            			{
-             				cout << setfill(' ') << setw(5) << "O";
-              				hall_seat++;
-            			}
-            			else
-            			{
-              				cout << setfill(' ') << setw(5) << "X";
-            			}
-          			}
-          			cout << endl;
-          		}
-
-          		cout << "\n\nRemark: Seat Not Available (X) / Seat Available (O)\n\n";
-          		cout << "Seat Available: " << hall_seat << " seat left" << endl;
-			}
-			else
-			{
-				repeat = 1;
-				cout << "Invalid Hall Number. Please re-enter." << endl; 
-			}
-		}
-	}
-}
-
 //Sales Report
 void ad_salesreport(movie_class& movie)
 {
+	double revenue = 0.0;
+	
 	cout << "\n\nSales Status" << endl;
 	cout << setfill('*') << setw(60) << "\n";
 	cout << "\n";
 
 	cout << left << setfill(' ') << setw(15) << "Movie Code";
 	cout << setw(30) << "Movie Title";
-	cout << setw(10) << "Revenue";
+	cout << right << setw(10) << "Revenue (RM)\n";
 	cout << setfill('-') << setw(60) << "\n";
 	cout << "\n";
+
+	for(int i = 0; i < 10; i++)
+		{
+			movie.revenue[i] = (movie.adult_tksold[i] * movie.cost_adult) + (movie.kid_tksold[i] * movie.cost_kid);	
+		}
 
 	for (int i = 0; i < 10; i++)
 	{
 		cout << left << setfill(' ') << setw(15) << movie.mv_list[i][0];
 		cout << setw(30) << movie.mv_list[i][1];
-		cout << setw(10) << setprecision(3) << showpoint << movie.revenue[i] << endl;
+		cout << right << setw(10) << fixed << setprecision(2) << showpoint << movie.revenue[i] << endl;
 	}
 
-	cout << setfill('-') << setw(50) << "\n";
-	cout << "\n\n";
-}
+	cout << setfill('-') << setw(60) << "\n";
+	cout << "\nTotal Sales:";
 
-//Add Movie
-void ad_addmovie(movie_class& movie, hall_class& hall)
-{
-	//Local Variables
-	string mv_name = "";
-	string mv_code = "";
-	char confirm = ' ';
-	bool flag = 1;
-	int count = 0;
-
-	cout << "\n\nAdd Movie" << endl;
-	cout << setfill('*') << setw(50) << "\n";
-	cout << "\n";
-
-	for(int i = 0; i < 10; i++)
+	for(int i = 0 ;i < 10; i++)
 	{
-		if (movie.mv_list[i][0].empty())
-		{
-			continue;
-		}
-		count++;
+		revenue = revenue + movie.revenue[i];
 	}
-
-	if (count == 10)
-	{
-		cout << "Movie List is Full. Cannot add more movie." << endl;
-	}
-	else
-	{
-	while (mv_name.empty() || flag == 1)
-	{
-		
-		cout << "Enter Movie Name: ";
-		getline(cin, mv_name);
-
-		if (mv_name.empty()) 
-		{
-			cout << "Invalid Movie Name. Please re-enter." << endl;
-		}	
-		else
-		{
-			flag = 0;
-		}
-	}
-
-	while ((tolower(confirm) != 'y' && tolower(confirm) != 'n') || flag == 0)
-	{
-		cout << "Are you sure to add \"" << mv_name << "\"? (Y/N): ";
-		cin.get(confirm);
-		cin.ignore(100,'\n');
-
-		if (isdigit(confirm) || isspace(confirm))
-		{
-			cout << "Invalid Input. Please re-enter." << endl;
-			flag = 0;
-		}
-		else
-		{
-			if(tolower(confirm) == 'y')
-			{
-				flag = 1;
-				mv_code = autoCode(movie);
-				
-				for (int i = 0; i < 10; i++)
-				{
-					if (movie.mv_list[i][0].empty())
-					{
-						movie.mv_list[i][0] = mv_code;
-						movie.mv_list[i][1] = mv_name;
-						break;
-					}
-				}
-				cout << "\n\nMovie Code: " << mv_code;
-				cout << "\nMovie Name: " << mv_name;
-				cout << "\nMovie is successfully inserted!\n\n" << endl;
-			}
-			else if (tolower(confirm) == 'n')
-			{
-				mv_name = "";
-				cout << "Operation Cancelled." << endl;
-				break;
-			}
-			else
-			{
-				cout << "Invald Input. Please re-enter." << endl;
-			}
-		}
-	}
-	}
+	
+	cout << right << setfill(' ') << setw(33) << "RM " << fixed << setprecision(2) << showpoint << revenue << endl;
 }
 
 string autoCode(movie_class movie)
@@ -235,98 +103,104 @@ string autoCode(movie_class movie)
 }
 
 //Delete Movie
-void ad_dltmovie(movie_class& movie, hall_class& hall)
+void ad_mfymovie(movie_class& movie)
 {
 	//Local Variables
-	string mv_code = "";
-	char confirm = ' ';
+	string mv_old = "";
+	string mv_new = "";
+	int mv_dur = 0;
+	string mv_cate = "";
+	int i;
 	bool flag = 1;
-	int count = 0;
 
-	cout << "\n\nDelete Movie" << endl;
+	cout << "\n\nModify Movie" << endl;
 	cout << setfill('*') << setw(50) << "\n";
 	cout << "\n";
 
-	for(int i = 0; i < 10; i++)
-	{
-		if (movie.mv_list[i][0].empty())
-		{
-			count++;
-		}
-	}
-
-	if (count == 10)
-	{
-		cout << "Movie List is Empty. Cannot delete more movie." << endl;
-	}
-	else
-	{
 	
-	while (mv_code.empty() || flag == 1)
+	while (flag)
 	{
-		checkpoint3:
-		cout << "Enter Movie Code: ";
-		getline(cin, mv_code);
+		cout << "Enter Movie (Code / Name) to Modify: ";
+		getline(cin, mv_old);
 
-		if (mv_code.empty()) 
+		if (mv_old.empty()) 
 		{
-			cout << "Invalid Movie Code. Please re-enter." << endl;
+			cout << "Invalid Movie Name or Code. Please re-enter." << endl;
+			flag = 1;
 		}	
 		else
 		{
-			flag = 0;
+			for (i = 0; i < 10; i++)
+			{
+				if (mv_old == movie.mv_list[i][0] || mv_old == movie.mv_list[i][1])	
+				{
+					flag = 0;
+					break;
+				}
+			}
+			if (i == 10)
+			{
+					cout << "Movie not found. Please re-enter." << endl;
+					flag = 1;
+			}
 		}
 	}
 
-	while ((tolower(confirm) != 'y' && tolower(confirm) != 'n') || flag == 0)
+	flag = 1;
+	while (flag)
 	{
-		cout << "Are you sure to delete \"" << mv_code << "\"? (Y/N): ";
-		cin.get(confirm);
-		cin.ignore(100,'\n');
+		cout << "Enter New Movie Name: ";
+		getline(cin, mv_new);
 
-		if (isdigit(confirm) || isspace(confirm))
+		if (mv_new.empty())
 		{
-			cout << "Invalid Input. Please re-enter." << endl;
-			flag = 0;
+			cout << "Invalid Movie Name. Please re-enter." << endl;
+			flag = 1;
 		}
 		else
 		{
-			if(tolower(confirm) == 'y')
-			{
-				flag = 1;
+			movie.mv_list[i][0] = autoCode(movie);
+			movie.mv_list[i][1] = mv_new;
+			flag = 0;
+		}
+	}
 
-				for (int i = 0; i < 10; i++)
-				{
-					if (movie.mv_list[i][0] == mv_code)
-					{
-						movie.mv_list[i][0] = "";
-						movie.mv_list[i][1] = "";
-						flag = 1;
-						break;
-					}
-					flag = 0;
-				}
-				if (flag == 1)
-				{
-					cout << "\nMovie is successfully deleted!\n\n" << endl;
-				}
-				else
-				{
-					cout << "\nMovie is not found!\n\n" << endl;
-					goto checkpoint3;
-				}
-			}
-			else if (tolower(confirm) == 'n')
+	flag = 1;
+	while (flag)
+		{
+			cout << "Enter Movie Duration (Hours): ";
+			cin >> mv_dur;
+			cin.ignore(100,'\n');
+
+			if (mv_dur < 1 || mv_dur > 4)
 			{
-				mv_code = "";
-				cout << "Operation Cancelled." << endl;
-				break;
+				cout << "Invalid Movie Duration. Please re-enter." << endl;
+				flag = 1;
 			}
 			else
 			{
-				cout << "Invald Input. Please re-enter." << endl;
+				movie.mv_list[i][2] =	to_string(mv_dur) + " Hours";
+				flag = 0;
 			}
 		}
-	}
-	}
+
+		flag = 1;
+		while (flag)
+			{
+				cout << "Enter Movie Category: ";
+				getline(cin, mv_cate);
+
+				if (mv_cate.empty())
+					{
+						cout << "Invalid Movie Category. Please re-enter." << endl;
+						flag = 1;
+					}
+					else
+				{
+						movie.mv_list[i][3] = mv_cate;
+						cout << "Movie Successfully Modified!" << endl;
+						flag = 0;
+					}
+			}
+
 }
