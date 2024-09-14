@@ -33,7 +33,7 @@ void ad_mvlist(movie_class movie)
 //Sales Report
 void ad_salesreport(movie_class& movie)
 {
-	double revenue = 0.0;
+	double totalrevenue = 0.0;
 	
 	cout << "\n\nSales Status" << endl;
 	cout << setfill('*') << setw(60) << "\n";
@@ -62,7 +62,7 @@ void ad_salesreport(movie_class& movie)
 
 	for(int i = 0 ;i < 10; i++)
 	{
-		revenue = revenue + movie.revenue[i];
+		totalrevenue = totalrevenue + movie.revenue[i];
 	}
 	
 	cout << right << setfill(' ') << setw(33) << "RM " << fixed << setprecision(2) << showpoint << revenue << endl;
