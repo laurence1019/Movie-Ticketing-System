@@ -234,6 +234,7 @@ TicketInfo CompleteTicketBuyingProcess () {
 
     TicketInfo main_store; 
 
+    int complete = 0;
     tuple<int, string, double> LocalTicketCategoryNums[3];
     int cateNum = 0, ticketNum = 0, totalticketnumber = 0, indexing= 0;
     double unitPrice = 0.0, catePrice = 0.0, discount = 0.0, totalPrice = 0.0, grandTotal = 0.0;
@@ -246,6 +247,7 @@ TicketInfo CompleteTicketBuyingProcess () {
         cateNum = ticketChoice();								//category choice
         quitMenu = quitMenuf(cateNum);
         if (quitMenu){
+            complete = 1;
             break;												//immediately exit the loop if want to quit menu
         }
         category = ticketCategory(cateNum);						//assign category (adult, children, senior)
@@ -264,23 +266,27 @@ TicketInfo CompleteTicketBuyingProcess () {
         indexing += 1;			
 
     }
+    if (complete = 1) {
+        main_store.total_ticket_amount = totalticketnumber;
+        for (int i = 0; i < 3; ++i) {
+            main_store.TicketCategoryNums[i] = LocalTicketCategoryNums[i];
+        }
 
-    main_store.total_ticket_amount = totalticketnumber;
-    for (int i = 0; i < 3; ++i) {
-        main_store.TicketCategoryNums[i] = LocalTicketCategoryNums[i];
+        bool is_member = membership();                              //true false
+        main_store.is_member = is_member;
+
+        if (is_member = true) {
+            discount = 0.9;
+        }
+
+        grandTotal = totalPrice * discount;
+        main_store.grandTotal = grandTotal;
+
+        return main_store;
     }
-
-    bool is_member = membership();                              //true false
-    main_store.is_member = is_member;
-
-    if (is_member = true) {
-        discount = 0.9;
+    else {
+        return main_store;
     }
-
-    grandTotal = totalPrice * discount;
-    main_store.grandTotal = grandTotal;
-
-    return main_store;
 }
 // -- CATEGORY AND MEMBERSHIP TICKET END
 
