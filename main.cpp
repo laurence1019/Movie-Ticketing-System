@@ -13,6 +13,8 @@ int main()
 	admin_class admin;
 	movie_class movie;
 	cust_class cust;
+	TicketInfo ticket_store;
+    	BookingInfo booking_store;
 
 	//Local Variable
 	char choice = ' ';
