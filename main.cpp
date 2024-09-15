@@ -5,6 +5,7 @@
 #include "admin_main.h"
 #include "admin_function.h"
 #include "customer_main.h"
+#include "customer_main2.h"
 #include "customer_function.h"
 
 int main()
@@ -19,6 +20,22 @@ int main()
 	//Local Variable
 	char choice = ' ';
 	bool retry = 1;
+
+
+	// declare movies in array list to loop through 
+    	Movie movie_list[10] = {
+        	Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("Kung Fu Panda", "2hr 30min", "Comedy", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("Deadpool 3", "2hr 40min", "Action", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"}),
+        	Movie("The Matrix", "2h", "Sci-Fi", "English", {"1", "2", "3", "4"}, {"12:30", "1:30", "2:00", "3:45"})
+    	};
+	
 
 	while (isspace(choice) || retry == 1) 
 	{
@@ -72,9 +89,21 @@ int main()
 					}
 
 				case '2':
-					cust_member(cust);
-					invoice();
-					receipt();
+					ticket_store = CompleteTicketBuyingProcess ();
+					booking_store = booking_main(movie_list, ticket_store.total_ticket_amount);
+    				vector<pair<string, string>> seat_store = booking_store.seat_store;
+
+    				cout << "\nBooking Summary:\nMovie: " << booking_store.movie_name << "\nDate: " << booking_store.date << "\nTime: " << booking_store.time << "\nNumber of Tickets: " << booking_store.ticket_amount << "\nSeat(s): ";
+    				for (const auto seat : seat_store) {
+        				cout << seat.first << seat.second << " ";
+    				}
+    				cout << endl;
+
+    				cout << "\nTicket Summary:\nMember: " << ticket_store.is_member << "\nNumber of Tickets: " << ticket_store.total_ticket_amount << "\nGrand Total: " << ticket_store.grandTotal << endl;
+    				
+					for (int i = 0; i < 3; ++i) {
+        				cout << "(" << get<0>(ticket_store.TicketCategoryNums[i]) << ", " << get<1>(ticket_store.TicketCategoryNums[i]) << ", " << get<2>(ticket_store.TicketCategoryNums[i]) << ")" << endl;
+    				}
 					break;
 
 				case '0':
@@ -87,3 +116,6 @@ int main()
 		}
 	}
 }
+
+
+    
