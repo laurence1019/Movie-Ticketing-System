@@ -1,21 +1,4 @@
-#include <iostream>
-#include <iomanip>
-#include <string>
-#include <thread> 
-#include <chrono>
-#include <cctype>
-#include <regex>
-#include <cstdlib>
-#include <ctime>
-#include <cmath>
-
-#include <array>
-#include <map>
-#include <tuple>
-#include <vector>  
-#include <algorithm>
-
-using namespace std;
+#include "header.h"
 
 // DECLARE STRUCTS AND CONSTANTS START --
 struct BookingInfo {
@@ -542,6 +525,9 @@ BookingInfo booking_main(Movie movie_list[10], int ticket_amount) {
 }
 // -- BOOKING FUNCTION END
 
+
+
+/*
 int main() {
     TicketInfo ticket_store;
     BookingInfo booking_store;
@@ -587,3 +573,5 @@ int main() {
 
     return 0;
 }
+
+*/
