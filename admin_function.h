@@ -7,7 +7,7 @@
 #include "login_class.h"
 
 /*Function*/
-//Movie List
+//Movie List Display
 void ad_mvlist(movie_class movie)
 {
 
@@ -21,6 +21,7 @@ void ad_mvlist(movie_class movie)
   cout << setw(15) << "Duration";
   cout << setw(15) << "Category" << endl;
 
+  //Displaying each Movie elements
   for (int i = 0; i < 10; i++)
   {
     cout << left << setfill(' ') << setw(10) << (i + 1);
@@ -48,6 +49,7 @@ void ad_salesreport(movie_class& movie)
   cout << setfill('-') << setw(60) << "\n";
   cout << "\n";
 
+  //Display each Movie's sales
   for (int i = 0; i < 10; i++)
   {
     movie.revenue[i] = (movie.adult_tksold[i] * movie.cost_adult) + (movie.kid_tksold[i] * movie.cost_kid) + (movie.senior_tksold[i] * movie.cost_senior);
@@ -63,6 +65,7 @@ void ad_salesreport(movie_class& movie)
   cout << setfill('-') << setw(60) << "\n";
   cout << "\nTotal Sales:";
 
+  //Display total revenue from these 10 movies
   for (int i = 0; i < 10; i++)
   {
     totalrevenue += movie.revenue[i];
@@ -71,29 +74,45 @@ void ad_salesreport(movie_class& movie)
   cout << right << setfill(' ') << setw(33) << "RM " << fixed << setprecision(2) << showpoint << totalrevenue << endl;
 }
 
+//Auto Generate Code 
 string autoCode(movie_class movie)
 {
   srand(time(0));
 
-  char chr[4];
+  //Code with 3 characters with 4 numbers
+  char chr[4]; 
   char num[5];
 
+  /*Generate random characters by ASCII value
+      Min = 65 (A)
+      Max = 90 (Z)
+    */
   for (int i = 0; i < 3; i++)
   {
-    chr[i] = (rand() % 26 + 65);
+    chr[i] = (rand() % 26 + 65); // 90+1-65 = 26
   }
-  chr[3] = '\0';
+  chr[3] = '\0';  //Null Terminator
 
+  
+  /*Generate random characters by ASCII value
+      Min = 65 (A)
+      Max = 90 (Z)
+    */
   for (int j = 0; j < 4; j++)
   {
-    num[j] = static_cast<char>(rand() % 10 + 48);
+    /*Generate random numbers by ASCII value
+      Min = 48 (A)
+      Max = 57 (Z)
+    */
+    num[j] = static_cast<char>(rand() % 10 + 48); // 57+1-48 = 10
   }
-  num[4] = '\0';
+  num[4] = '\0';  //Null Terminator
 
   string chr_txt(chr);
   string num_txt(num);
   string code = chr_txt + num_txt;
 
+  //Validate if the code is same with the any movie
   for (int k = 0; k < 10; k++)
   {
     if (code == movie.mv_list[k][0])
@@ -101,11 +120,11 @@ string autoCode(movie_class movie)
       return autoCode(movie);
     }
   }
-
+  
   return code;
 }
 
-//Delete Movie
+//Modify Movie
 void ad_mfymovie(movie_class& movie)
 {
   //Local Variables
@@ -120,7 +139,7 @@ void ad_mfymovie(movie_class& movie)
   cout << setfill('*') << setw(50) << "\n";
   cout << "\n";
 
-
+  //Selection Movie for Modify
   while (flag)
   {
     cout << "Enter Movie (Code / Name) to Modify: ";
@@ -150,6 +169,7 @@ void ad_mfymovie(movie_class& movie)
   }
 
   flag = 1;
+  //Insert New Movie for Replacing
   while (flag)
   {
     cout << "Enter New Movie Name: ";
