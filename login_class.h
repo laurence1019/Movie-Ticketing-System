@@ -3,8 +3,6 @@
 
 #include "header.h"
 
-
-
 class admin_class
 {
 public:
