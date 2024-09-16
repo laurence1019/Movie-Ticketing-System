@@ -10,6 +10,7 @@ void cust_member(cust_class& cust)
     string memID = "";
     bool flag = 0;
 
+    //Check whether the input is valid
     while (isspace(owned) || isdigit(owned))
     {
         cout << "\nDo you have a membership ID? (Y/N): ";
@@ -19,6 +20,7 @@ void cust_member(cust_class& cust)
 
     while (flag == 0)
     {
+        //When the customer is membership
         if (tolower(owned) == 'y')
         {
             cout << "Enter your membership ID: ";
@@ -32,7 +34,9 @@ void cust_member(cust_class& cust)
             {
                 flag = 1;
             }
+            
         }
+        //When customer not a membership
         else if (tolower(owned) == 'n')
         {
             cout << "Alright! Proceed to Customer Menu." << endl;
@@ -66,7 +70,7 @@ void admin_login(admin_class& admin)
     string inputname = "";
     string inputpass = "";
     bool success = 0;
-    int log_count = 0;
+    int log_count = 0; //For counting tried purpose
 
     while (inputname.empty() || inputpass.empty() || success == 0)
     {
@@ -76,6 +80,7 @@ void admin_login(admin_class& admin)
         cout << "Enter Your PIN number: ";
         getline(cin, inputpass);
 
+        //Check if input is empty
         if (inputname.empty() || inputpass.empty())
         {
             cout << "Please enter your username and password." << endl;
@@ -83,6 +88,7 @@ void admin_login(admin_class& admin)
         }
         else
         {
+            //Check if name and password from user is correct
             if (inputname == admin.realname && inputpass == admin.realpass)
             {
                 success = 1;
@@ -96,6 +102,7 @@ void admin_login(admin_class& admin)
             }
         }
 
+        //If tried more than 3 times, the system automatically pause for 20 seconds
         if (log_count == 3)
         {
             cout << "You have exceeded the maximum number of login attempts. Please try again after 20 seconds." << endl;
@@ -140,7 +147,8 @@ void admin_menu(admin_class& admin)
         }
         else if (isdigit(choice))
         {
-            switch (choice) {
+            switch (choice) 
+            {
             case '1':
                 admin.ad_choice = 1;
                 skip = 1;
