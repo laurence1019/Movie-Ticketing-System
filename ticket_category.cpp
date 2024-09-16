@@ -5,7 +5,7 @@
 int int_err_input(string int_str, string err_msg) {
     bool cdt = false;						//condition set to false
     int real_int = 0;						//the variable to stored the integer converted from string
-    while (!cdt) {							//continue if condition is false
+    while (!cdt) {							
         getline(cin >> ws, int_str);		//accept user input and stored it as a string
 
         //assume the input is valid
@@ -16,8 +16,8 @@ int int_err_input(string int_str, string err_msg) {
             if (!isdigit(c)) {
                 //note that negative integer is consider as not an integer in this case as '-' sign is not a digit, same goes to decimal number
                 //this only works for positive integer only (pure digit)
-                cdt = false;	// If any character is not a digit, set condition to false
-                break;			// Break out of the loop immediately
+                cdt = false;	//if any character is not a digit, set condition to false
+                break;			
             }
         }
         if (!cdt) {
@@ -52,7 +52,7 @@ int ticketChoice() {
 
     while (cateNum_int < 1 || cateNum_int > 4) {
         cateNum_int = int_err_input(cateNum, cateErrMsg);
-        if (cateNum_int < 1 || cateNum_int > 4) {		//if user input is not 1,2,3 but other integer 
+        if (cateNum_int < 1 || cateNum_int > 4) {		//if user input is not 1,2,3,4 but other integer 
             cout << cateErrMsg;
         }
     }
@@ -60,6 +60,7 @@ int ticketChoice() {
 }
 
 bool quitMenuf(int cateNum) {
+    //quit menu if user enter 4
     bool quitMenu = false;
     if (cateNum == 4) {
         quitMenu = true;
