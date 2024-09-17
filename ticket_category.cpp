@@ -2,35 +2,42 @@
 #include "ticket_category.h"
 #include "login_class.h"
 
-int int_err_input(string int_str, string err_msg) {
+int int_err_input(string int_str, string err_msg)
+{
     bool cdt = false;						//condition set to false
     int real_int = 0;						//the variable to stored the integer converted from string
-    while (!cdt) {							
+    while (!cdt) 
+    {							
         getline(cin >> ws, int_str);		//accept user input and stored it as a string
 
         //assume the input is valid
         cdt = true;
 
         //check if every character is a digit
-        for (char c : int_str) {
-            if (!isdigit(c)) {
+        for (char c : int_str) 
+        {
+            if (!isdigit(c)) 
+            {
                 //note that negative integer is consider as not an integer in this case as '-' sign is not a digit, same goes to decimal number
                 //this only works for positive integer only (pure digit)
                 cdt = false;	//if any character is not a digit, set condition to false
                 break;			
             }
         }
-        if (!cdt) {
+        if (!cdt) 
+        {
             cout << err_msg;
         }
-        else {
+        else 
+        {
             return real_int = stoi(int_str);		//retrun the input if it was truly a positive integer
         }
     }
     return 0;
 }
 
-void ticketCategoryMenu() {
+void ticketCategoryMenu() 
+{
     //menu for ticket category
     cout << " " << "Choose your ticket category:\n";
     cout << " " << setw(54) << setfill('_') << "\n" << setfill(' ');
@@ -46,33 +53,41 @@ void ticketCategoryMenu() {
     cout << " " << "Your choice (Enter 1/2/3/4): ";
 }
 
-int ticketChoice() {
+int ticketChoice() 
+{
     string cateNum = " ", cateErrMsg = " Your choice is invalid. Pls try again (1/2/3/4): ";
     int cateNum_int = 0;
 
-    while (cateNum_int < 1 || cateNum_int > 4) {
+    while (cateNum_int < 1 || cateNum_int > 4) 
+    {
         cateNum_int = int_err_input(cateNum, cateErrMsg);
-        if (cateNum_int < 1 || cateNum_int > 4) {		//if user input is not 1,2,3,4 but other integer 
+        if (cateNum_int < 1 || cateNum_int > 4) 
+        {		
+            //if user input is not 1,2,3,4 but other integer 
             cout << cateErrMsg;
         }
     }
     return cateNum_int;
 }
 
-bool quitMenuf(int cateNum) {
+bool quitMenuf(int cateNum) 
+{
     //quit menu if user enter 4
     bool quitMenu = false;
-    if (cateNum == 4) {
+    if (cateNum == 4) 
+    {
         quitMenu = true;
         cout << "\n ===== You have quit the menu =====\n";
     }
     return quitMenu;
 }
 
-string ticketCategory(int cateNum) {
+string ticketCategory(int cateNum) 
+{
     //assign category according to user choice
     string category = " ";
-    switch (cateNum) {
+    switch (cateNum) 
+    {
     case 1:
         category = "adult";
         break;
@@ -88,30 +103,36 @@ string ticketCategory(int cateNum) {
     return category;
 }
 
-bool wantOtherCategory() {
+bool wantOtherCategory() 
+{
     bool otherCate = false, cdt = false;
     string input = " ";
     cout << " Would you like to purchase other category?\n" << " 'y' for yes OR 'n' for no: ";
     //ask user whether want to buy other category or not
 
-    while (!cdt) {
+    while (!cdt) 
+    {
         cin >> input;
-        if (input == "y" || input == "Y") {
+        if (input == "y" || input == "Y") 
+        {
             cdt = true;
             otherCate = true;				//set true if want to buy other category
         }
-        else if (input == "n" || input == "N") {
+        else if (input == "n" || input == "N") 
+        {
             cdt = true;
             otherCate = false;				//set false if dont want to buy other category
         }
-        else {
+        else 
+        {
             cout << " Please enter 'y' or 'n' only: ";		//ask user enter again if not y or n
         }
     }
     return otherCate;
 }
 
-int ticketNumf(string category) {
+int ticketNumf(string category) 
+{
     string ticketNum = " ", ticketErrMsg = " Please enter a positive integer for the ticket number you would like to purchase: ";
     int ticketNum_int = 0;
     bool ticketCond = false;
@@ -119,14 +140,17 @@ int ticketNumf(string category) {
     cout << "\n How many " << category << " tickets would you like to purchase?" << "\n Enter a number: ";
     //ask user how many tickets to buy
 
-    while (!ticketCond) {
+    while (!ticketCond) 
+    {
         ticketNum_int = int_err_input(ticketNum, ticketErrMsg);
 
-        if (ticketNum_int == 0) {
+        if (ticketNum_int == 0) 
+        {
             //tell user they cannot purchase 0 ticket
             cout << " You cannot choose 0 ticket. Please enter again: ";
         }
-        else {
+        else 
+        {
             //user succesfully purchase their ticket
             ticketCond = true;
             cout << "\n ========== You have successfully selected " << ticketNum_int << " tickets for the " << category << " category ==========\n\n";
@@ -135,12 +159,12 @@ int ticketNumf(string category) {
     return ticketNum_int;
 }
 
-
-
-double unitPricef(int cateNum) {
+double unitPricef(int cateNum) 
+{
     //assign unitPrice according to the category chosen 
     double unitPrice = 0.0;
-    switch (cateNum) {
+    switch (cateNum) 
+    {
     case 1:
         unitPrice = 22.50;		//adult price
         break;
@@ -154,7 +178,8 @@ double unitPricef(int cateNum) {
     return unitPrice;
 }
 
-double catePricef(double unitPrice, int ticketNum) {
+double catePricef(double unitPrice, int ticketNum) 
+{
     double catePrice = 0.0;
     catePrice = unitPrice * ticketNum;		//calculate the total price for one category chosen by user
     return catePrice;
