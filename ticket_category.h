@@ -13,7 +13,8 @@ double catePricef(double unitPrice, int ticketNum);
 
 
 // DECLARE STRUCTS AND CONSTANTS START --
-struct BookingInfo {
+struct BookingInfo 
+{
     // struct for storing current booking info
     // lasts only for current session
 
@@ -24,7 +25,9 @@ struct BookingInfo {
     int ticket_amount;
     vector<pair<string, string>> seat_store;  // Store seat information as a list
 };
-struct TicketInfo {
+
+struct TicketInfo 
+{
     // struct for storing ticket info
     // lasts only for current session
 
