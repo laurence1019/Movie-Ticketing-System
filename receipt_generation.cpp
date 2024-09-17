@@ -48,7 +48,8 @@ string payMethDec()
     int pay_type = 0;           //VARIABLE pay_type WILL RECEIVE RETURN VALUE FROM FUNCTION pay_decision()
     string pay_dis = " ";       //pay_dis IS USED TO DISPLAY IN THE TICKET
     pay_type = pay_decision();
-    switch (pay_type) {
+    switch (pay_type) 
+    {
     case 1:
         pay_dis = "Credit Card";
         break;
@@ -88,13 +89,16 @@ void invoice(int ticketNum[], string category[], movie_class& movie, cust_class 
     
     for (int i = 0; i < 3; i++)
     {
-        if (category[i] == "adult") {
+        if (category[i] == "adult") 
+        {
             adultTicketNum = ticketNum[i];
         }
-        else if (category[i] == "children") {
+        else if (category[i] == "children") 
+        {
             childTicketNum = ticketNum[i];
         }
-        else{
+        else
+        {
             seniorTicketNum = ticketNum[i];
         }
     }
@@ -140,12 +144,14 @@ void invoice(int ticketNum[], string category[], movie_class& movie, cust_class 
     
 }
 
-double payAmount(double grandTotal) {
+double payAmount(double grandTotal) 
+{
     double pay_amount = 0.0;
     cout << "\nEnter Payment Amount: " << endl;
     cin >> pay_amount;
     
-    while(pay_amount < grandTotal){
+    while(pay_amount < grandTotal)
+    {
         cin >> pay_amount;
         if(cin.fail())
         {
@@ -181,5 +187,4 @@ void receipt(double grandTotal, string movieTitle, string time, movie_class movi
     cout << setw(15) << left << "Payment Amount" << right << setw(2) << ":" << setw(28) << pay_amount << endl;
     cout << setw(15) << left << "Change" << right << setw(2) << ":" << setw(28) << change << endl;
     cout << "---------------------------------------------" << endl;
-
 }
