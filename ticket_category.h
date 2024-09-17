@@ -7,7 +7,7 @@ int ticketChoice();
 bool quitMenuf(int cateNum);
 string ticketCategory(int cateNum);
 bool wantOtherCategory();
-int ticketNumf(string category);
+int ticketNumf(string category, int remainTicketNum);
 double unitPricef(int cateNum);
 double catePricef(double unitPrice, int ticketNum);
 
