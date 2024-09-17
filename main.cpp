@@ -130,9 +130,8 @@ int main()
                   cout << seat.first << seat.second << " ";
               }
               cout << endl;
-
-              // since ticket_store.is_member returns true false, 1 or 0 - have to declare yes no on top
-              string is_member = ticket_store.is_member ? "Yes" : "No";
+           
+              string is_member = ticket_store.is_member ? "Yes" : "No";    //the yes or no string to be displayed based on whether the customer is member or not
               cout << "\nTicket Summary:\nMember: " << is_member << "\nNumber of Tickets: " << ticket_store.total_ticket_amount
                   << "\nGrand Total: " << ticket_store.grandTotal << endl;
               for (int i = 0; i < 3; ++i)
@@ -159,7 +158,7 @@ int main()
       }
       else if (choice == '0')
       {
-         return 0;
+         break;
       }
       else
       {
@@ -168,6 +167,9 @@ int main()
       }
     }
   }
+  cout << "\n=============== THANK YOU for using the TGVCINEMAS system ===============";
+  cout << "\n=========================== HAVE A NICE DAY! ===========================\n";
+  return 0;  
 }
 
 
