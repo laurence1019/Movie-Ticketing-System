@@ -131,7 +131,7 @@ bool wantOtherCategory()
     return otherCate;
 }
 
-int ticketNumf(string category) 
+int ticketNumf(string category,int remainTicketNum) 
 {
     string ticketNum = " ", ticketErrMsg = " Please enter a positive integer for the ticket number you would like to purchase: ";
     int ticketNum_int = 0;
@@ -143,8 +143,16 @@ int ticketNumf(string category)
     while (!ticketCond) 
     {
         ticketNum_int = int_err_input(ticketNum, ticketErrMsg);
-
-        if (ticketNum_int == 0) 
+        if(ticketNum_int > remainTicketNum)
+        {
+            cout << " The maxmimum number of tickets that can be bought at one purchase is only 15.\n";        //15 is the maximum number of ticket per purchase
+            if(remainTicketNum < 15)                          
+            {
+                cout << " You only have " << remainTicketNum << "tickets left to purchased.\n";            //let user know how many tickets left they can buy
+            }
+            cout << " Please enter again: ";                    
+        }
+        else if (ticketNum_int == 0) 
         {
             //tell user they cannot purchase 0 ticket
             cout << " You cannot choose 0 ticket. Please enter again: ";
