@@ -148,7 +148,7 @@ int ticketNumf(string category,int remainTicketNum)
             cout << " The maxmimum number of tickets that can be bought at one purchase is only 15.\n";        //15 is the maximum number of ticket per purchase
             if(remainTicketNum < 15)                          
             {
-                cout << " You only have " << remainTicketNum << "tickets left to purchased.\n";            //let user know how many tickets left they can buy
+                cout << " You only have " << remainTicketNum << " tickets left to purchased.\n";            //let user know how many tickets left they can buy
             }
             cout << " Please enter again: ";                    
         }
