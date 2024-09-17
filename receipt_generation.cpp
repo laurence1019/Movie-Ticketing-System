@@ -69,7 +69,8 @@ string payMethDec()
 string rtc()
 {
     time_t timestamp = time(NULL);
-    struct tm datetime = *localtime(&timestamp);
+    struct tm datetime;
+    localtime_s(&datetime, &timestamp);
 
     char output[50];
 
