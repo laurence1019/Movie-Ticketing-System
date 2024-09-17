@@ -87,7 +87,8 @@ int main()
 
           if (admin.ad_choice != 0)
           {
-            switch(admin.ad_choice) {
+            switch(admin.ad_choice)
+            {
                 case 1:
                    ad_mvlist(movie);
                    break;
@@ -97,7 +98,6 @@ int main()
                 case 3:
                    ad_mfymovie(movie);
                    break;
-
             }
             goto checkpoint1;
           }
@@ -115,25 +115,29 @@ int main()
 
           ticket_store = CompleteTicketBuyingProcess(cust);
 
-          if (!ticket_store.quitCategoryMenu) {
+          if (!ticket_store.quitCategoryMenu)
+          {
               booking_store = booking_main(movie_list, ticket_store.total_ticket_amount);
           }
 
-          if (!booking_store.quitBookingMenu) {       
+          if (!booking_store.quitBookingMenu)
+          {       
               vector<pair<string, string>> seat_store = booking_store.seat_store;
               cout << "\nBooking Summary:\nMovie: " << booking_store.movie_name << "\nDate: " << booking_store.date << "\nTime: " << booking_store.time
                   << "\nNumber of Tickets: " << booking_store.ticket_amount << "\nSeat(s): ";
-              for (auto seat : seat_store) {
+              for (auto seat : seat_store)
+              {
                   cout << seat.first << seat.second << " ";
               }
               cout << endl;
 
               // since ticket_store.is_member returns true false, 1 or 0 - have to declare yes no on top
-            string is_member = ticket_store.is_member ? "Yes" : "No";
+              string is_member = ticket_store.is_member ? "Yes" : "No";
               cout << "\nTicket Summary:\nMember: " << is_member << "\nNumber of Tickets: " << ticket_store.total_ticket_amount
                   << "\nGrand Total: " << ticket_store.grandTotal << endl;
-              for (int i = 0; i < 3; ++i) {
-                  cout << "(" << get<0>(ticket_store.TicketCategoryNums[i]) << ", "
+              for (int i = 0; i < 3; ++i)
+              {
+                      cout << "(" << get<0>(ticket_store.TicketCategoryNums[i]) << ", "
                       << get<1>(ticket_store.TicketCategoryNums[i]) << ", "
                       << get<2>(ticket_store.TicketCategoryNums[i]) << ")" << std::endl;
               }
@@ -152,12 +156,11 @@ int main()
           
             invoice(ticketnum, category, movie, cust);
             receipt(movie.grandtotal, booking_store.movie_name, booking_store.time, movie);
-          
       }
       else if (choice == '0')
-       {
+      {
          return 0;
-       }
+      }
       else
       {
          cout << "Invalid choice. Please try again." << endl;
