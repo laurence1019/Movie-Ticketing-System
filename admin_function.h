@@ -93,17 +93,13 @@ string autoCode(movie_class movie)
   }
   chr[3] = '\0';  //Null Terminator
 
-  
-  /*Generate random characters by ASCII value
-      Min = 65 (A)
-      Max = 90 (Z)
-    */
-  for (int j = 0; j < 4; j++)
-  {
-    /*Generate random numbers by ASCII value
+
+  /*Generate random numbers by ASCII value
       Min = 48 (A)
       Max = 57 (Z)
     */
+  for (int j = 0; j < 4; j++)
+  {
     num[j] = static_cast<char>(rand() % 10 + 48); // 57+1-48 = 10
   }
   num[4] = '\0';  //Null Terminator
