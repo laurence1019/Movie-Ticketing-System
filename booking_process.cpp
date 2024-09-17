@@ -7,7 +7,7 @@ TicketInfo CompleteTicketBuyingProcess(cust_class& cust)
 
     int complete = 0;
     tuple<int, string, double> LocalTicketCategoryNums[3];
-    int cateNum = 0, ticketNum = 0, totalticketnumber = 0, indexing = 0;
+    int cateNum = 0, ticketNum = 0, remainTicketNum = 15, totalticketnumber = 0, indexing = 0;
     double unitPrice = 0.0, catePrice = 0.0, discount = 1.0, totalPrice = 0.0, grandTotal = 0.0;
     string category = " ";
     bool quitMenu = false, wantOtherCate = true;
@@ -34,8 +34,13 @@ TicketInfo CompleteTicketBuyingProcess(cust_class& cust)
             main_store.quitCategoryMenu = false;
             category = ticketCategory(cateNum);						//assign category (adult, children, senior)
             unitPrice = unitPricef(cateNum);						//assign unitPrice according to category
-            ticketNum = ticketNumf(category);		                //ticket number of the category chosen
-
+            ticketNum = ticketNumf(category, remainTicketNum);	    //ticket number of the category chosen
+            remainTicketNum -= ticketNum;                           //update the remaining ticket number user can still buy
+            if(remainTicketNum == 0)                                //no remaining ticket to buy, straight go to select movie
+            {
+                complete = 1;
+                break;
+            }
             totalticketnumber += ticketNum;
 
             catePrice = catePricef(unitPrice, ticketNum);			//calculate total price for one category
